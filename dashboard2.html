@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-950 text-gray-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NoteLagbe Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com/3.4.4"></script>
+  <script type="module" defer src="dashboard.js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    .header-gradient {
+      background: linear-gradient(to right, #1f2937, #111827); /* A subtle gradient for the header */
+    }
+    .main-bg-texture {
+      background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre-v2.png');
+      background-attachment: fixed;
+      background-size: cover;
+      opacity: 0.05; /* Very subtle texture */
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+    }
+    .card-hover-effect:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body class="font-sans min-h-screen flex flex-col relative overflow-hidden">
+  <div class="main-bg-texture"></div>
+
+  <header class="header-gradient shadow-lg p-5 flex justify-between items-center z-10">
+    <h1 class="text-3xl font-extrabold text-blue-400 tracking-wide">NoteLagbe Dashboard</h1>
+    <button onclick="logout()" class="bg-red-700 hover:bg-red-800 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-75">
+      Logout
+    </button>
+  </header>
+
+  <main class="flex-grow p-8 max-w-6xl mx-auto w-full relative z-10">
+    <h2 class="text-3xl font-bold mb-8 text-white border-b-2 border-blue-500 pb-3">Your Curated Notes</h2>
+    <section id="file-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      </section>
+  </main>
+
+  <footer class="bg-gray-900 bg-opacity-70 text-center text-gray-500 text-sm py-5 border-t border-gray-800 z-10">
+    &copy; 2025 NoteLagbe.com – Empowering students, one note at a time.
+  </footer>
+</body>
+</html>
