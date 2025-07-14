@@ -2,55 +2,72 @@
 <html lang="en" class="bg-gray-950 text-gray-100">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>NoteLagbe - Dashboard</title>
-  <script type="module" defer src="script.js"></script>
 
-  <!-- Google Fonts: Inter for professional look -->
+  <!-- Google Fonts: Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+
+  <script type="module" defer src="script.js"></script>
 
   <style>
     body {
       font-family: 'Inter', sans-serif;
     }
-    /* Custom scrollbar for file list */
+    /* Scrollbar for notes list */
     #file-list {
-      max-height: 60vh;
+      max-height: 65vh;
       overflow-y: auto;
       scrollbar-width: thin;
       scrollbar-color: #4b5563 transparent;
     }
     #file-list::-webkit-scrollbar {
-      width: 6px;
+      width: 8px;
     }
     #file-list::-webkit-scrollbar-track {
       background: transparent;
     }
     #file-list::-webkit-scrollbar-thumb {
       background-color: #4b5563;
-      border-radius: 3px;
+      border-radius: 4px;
     }
   </style>
 </head>
-<body class="bg-gray-950 p-8">
+<body class="bg-gray-950 min-h-screen flex flex-col">
 
-  <header class="flex justify-between items-center mb-10 max-w-5xl mx-auto">
-    <h1 class="text-4xl font-semibold">📂 Download Notes</h1>
+  <!-- Header -->
+  <header class="flex justify-between items-center max-w-6xl mx-auto p-6">
+    <h1 class="text-4xl font-extrabold flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a4 4 0 004 4h10a4 4 0 004-4V7M16 3v4M8 3v4M3 7h18" />
+      </svg>
+      Download Notes
+    </h1>
     <button
       onclick="logout()"
-      class="bg-red-600 hover:bg-red-700 transition text-white px-5 py-2 rounded-lg font-semibold shadow-md"
+      class="bg-red-600 hover:bg-red-700 text-white font-semibold px-5 py-2 rounded-lg shadow-lg transition"
+      aria-label="Logout"
     >
       Logout
     </button>
   </header>
 
-  <main class="max-w-5xl mx-auto">
-    <section id="file-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      <!-- Document cards will be injected here by script.js -->
+  <!-- Main content -->
+  <main class="flex-grow max-w-6xl mx-auto p-6">
+    <section
+      id="file-list"
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
+      aria-label="List of downloadable notes"
+    >
+      <!-- Document cards will be injected here dynamically -->
     </section>
   </main>
 
+  <!-- Footer -->
+  <footer class="text-center text-gray-500 text-sm py-8 select-none">
+    &copy; 2025 NoteLagbe.com. Built for students, by students. 💙<br />
+    Made with ❤️ in Bangladesh 🇧🇩
+  </footer>
 </body>
 </html>
