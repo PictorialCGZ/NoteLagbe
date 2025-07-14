@@ -5,11 +5,16 @@ const supabase = createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzZWdvc2xwbGl0a2tyYmFybHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0OTI2NjUsImV4cCI6MjA2ODA2ODY2NX0.Fi7-CD0M2DHKSNmwDkQxfHeP8xpGCBDc5bgLWBAbGns"
 );
 
-// Login handler
+// 🔐 Login handler
 async function handleLogin(event) {
   event.preventDefault();
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+  const username = document.getElementById("login-username")?.value.trim();
+  const password = document.getElementById("login-password")?.value.trim();
+
+  if (!username || !password) {
+    alert("Please fill in both login fields.");
+    return;
+  }
 
   const { data, error } = await supabase
     .from("authdata")
@@ -25,12 +30,35 @@ async function handleLogin(event) {
   }
 }
 
+// 📝 Signup handler
+async function handleSignup(event) {
+  event.preventDefault();
+  const username = document.getElementById("signup-username")?.value.trim();
+  const password = document.getElementById("signup-password")?.value.trim();
+
+  if (!username || !password) {
+    alert("Please fill in both signup fields.");
+    return;
+  }
+
+  const { error } = await supabase.from("authdata").insert([{ username, password }]);
+
+  if (error) {
+    console.error(error);
+    alert("Signup failed: " + error.message);
+  } else {
+    alert("Signup successful!");
+    window.location.href = "index.html";
+  }
+}
+
+// 🔄 Attach handlers
 document.addEventListener("DOMContentLoaded", () => {
-  const loginBtn = document.getElementById("loginBtn");
-  if (loginBtn) loginBtn.addEventListener("click", handleLogin);
+  document.getElementById("loginBtn")?.addEventListener("click", handleLogin);
+  document.getElementById("signupBtn")?.addEventListener("click", handleSignup);
 });
 
-// Dashboard protection
+// 🚫 Protect dashboard
 if (
   window.location.pathname.includes("dashboard.html") &&
   !localStorage.getItem("loggedInUser")
@@ -38,14 +66,14 @@ if (
   window.location.href = "index.html";
 }
 
-// Logout
+// 🔓 Logout function
 function logout() {
   localStorage.removeItem("loggedInUser");
   window.location.href = "index.html";
 }
 window.logout = logout;
 
-// Load files
+// 📁 Load files to dashboard
 async function loadFiles() {
   const fileList = document.getElementById("file-list");
   if (!fileList) return;
