@@ -5,48 +5,71 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NoteLagbe.com – Study Notes for Students</title>
 
-  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com/3.4.4"></script>
 
-  <!-- JS Module -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    /* Adding a subtle gradient overlay to the hero section for depth */
+    .hero-gradient-overlay {
+      position: relative;
+    }
+    .hero-gradient-overlay::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, rgba(17, 24, 39, 0.8) 0%, rgba(17, 24, 39, 0.2) 50%, rgba(17, 24, 39, 0.8) 100%);
+      z-index: 0;
+    }
+    .hero-gradient-overlay > * {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+
   <script type="module" src="script.js" defer></script>
 </head>
 <body class="font-sans antialiased">
 
-  <!-- HERO -->
-  <section class="min-h-screen flex flex-col justify-center items-center text-center px-6 py-12">
-    <h1 class="text-4xl md:text-6xl font-bold mb-4 text-white">
-      📚 Welcome to <span class="text-blue-500">NoteLagbe.com</span>
+  <section class="min-h-screen flex flex-col justify-center items-center text-center px-6 py-12 relative overflow-hidden hero-gradient-overlay">
+    <div class="absolute inset-0 z-0 opacity-10" style="background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre-v2.png');"></div>
+    <div class="absolute inset-0 z-0 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800 opacity-90"></div>
+    
+    <h1 class="text-4xl md:text-6xl font-extrabold mb-4 text-white drop-shadow-lg leading-tight">
+      📚 Welcome to <span class="text-blue-400">NoteLagbe.com</span>
     </h1>
-    <p class="text-lg md:text-xl text-gray-400 max-w-xl mb-10">
-      Free, curated study notes shared by real students. Sign up or log in to access everything.
+    <p class="text-lg md:text-xl text-gray-300 max-w-2xl mb-10 leading-relaxed">
+      Unlock your academic potential with **free, high-quality study notes**, thoughtfully curated and shared by students, for students. Join our vibrant community today!
     </p>
 
-    <!-- AUTH BOX -->
-    <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-900 rounded-2xl shadow-xl p-10">
+    <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-900 bg-opacity-70 backdrop-blur-sm rounded-2xl shadow-2xl p-10 border border-gray-700">
       
-      <!-- SIGN UP -->
-      <div>
-        <h2 class="text-2xl font-semibold mb-4 text-white">🔐 Create an Account</h2>
-        <input id="signup-username" type="text" placeholder="Username"
-               class="w-full p-3 mb-4 rounded bg-gray-800 border border-gray-700 text-white" />
-        <input id="signup-password" type="password" placeholder="Password"
-               class="w-full p-3 mb-6 rounded bg-gray-800 border border-gray-700 text-white" />
+      <div class="flex flex-col items-center p-6 bg-gray-800 bg-opacity-60 rounded-xl border border-gray-700">
+        <h2 class="text-2xl font-bold mb-6 text-white tracking-wide">🔐 Create Your Account</h2>
+        <input id="signup-username" type="text" placeholder="Choose a Username"
+               class="w-full p-4 mb-4 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300" />
+        <input id="signup-password" type="password" placeholder="Set a Secure Password"
+               class="w-full p-4 mb-6 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300" />
         <button id="signupBtn"
-                class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded transition">
-          Sign Up
+                class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+          Sign Up Now
         </button>
       </div>
 
-      <!-- LOGIN -->
-      <div>
-        <h2 class="text-2xl font-semibold mb-4 text-white">✅ Log In</h2>
-        <input id="login-username" type="text" placeholder="Username"
-               class="w-full p-3 mb-4 rounded bg-gray-800 border border-gray-700 text-white" />
-        <input id="login-password" type="password" placeholder="Password"
-               class="w-full p-3 mb-6 rounded bg-gray-800 border border-gray-700 text-white" />
+      <div class="flex flex-col items-center p-6 bg-gray-800 bg-opacity-60 rounded-xl border border-gray-700">
+        <h2 class="text-2xl font-bold mb-6 text-white tracking-wide">✅ Access Your Account</h2>
+        <input id="login-username" type="text" placeholder="Your Username"
+               class="w-full p-4 mb-4 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300" />
+        <input id="login-password" type="password" placeholder="Your Password"
+               class="w-full p-4 mb-6 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300" />
         <button id="loginBtn"
-                class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded transition">
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
           Log In
         </button>
       </div>
@@ -54,29 +77,27 @@
     </div>
   </section>
 
-  <!-- FEATURES -->
-  <section class="py-16 px-6 bg-gray-900 text-center">
-    <h2 class="text-3xl font-bold mb-8 text-white">🚀 Why Use NoteLagbe?</h2>
-    <div class="grid gap-8 md:grid-cols-3 max-w-5xl mx-auto">
-      <div class="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold mb-2 text-green-400">Free Resources</h3>
-        <p class="text-gray-400">Download high‑quality study notes for free — no hidden fees.</p>
+  <section class="py-20 px-6 bg-gray-900 text-center">
+    <h2 class="text-4xl font-extrabold mb-12 text-white drop-shadow-md">🚀 Why Choose NoteLagbe?</h2>
+    <div class="grid gap-10 md:grid-cols-3 max-w-6xl mx-auto">
+      <div class="bg-gray-800 p-8 rounded-xl shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border border-gray-700">
+        <h3 class="text-2xl font-bold mb-4 text-green-400">Absolutely Free</h3>
+        <p class="text-gray-300 leading-relaxed">Gain unlimited access to a vast repository of high-quality study notes without any hidden costs or subscription fees. Education should be accessible to everyone.</p>
       </div>
-      <div class="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold mb-2 text-blue-400">Trusted by Students</h3>
-        <p class="text-gray-400">Used by students at colleges all over Bangladesh.</p>
+      <div class="bg-gray-800 p-8 rounded-xl shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border border-gray-700">
+        <h3 class="text-2xl font-bold mb-4 text-blue-400">Student-Approved Content</h3>
+        <p class="text-gray-300 leading-relaxed">Our notes are shared and verified by a growing community of students from universities and colleges across Bangladesh, ensuring relevance and reliability.</p>
       </div>
-      <div class="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold mb-2 text-pink-400">Super Simple</h3>
-        <p class="text-gray-400">No clutter — just the files you need, fast.</p>
+      <div class="bg-gray-800 p-8 rounded-xl shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border border-gray-700">
+        <h3 class="text-2xl font-bold mb-4 text-pink-400">Seamless Experience</h3>
+        <p class="text-gray-300 leading-relaxed">Navigate with ease through a clean, intuitive interface designed for quick access to the study materials you need. Focus on learning, not searching.</p>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer class="bg-gray-950 py-8 text-center text-gray-500 text-sm">
-    <p>&copy; 2025 NoteLagbe.com. Built for students, by students. 💙</p>
-    <p class="mt-2">Made with ❤️ in Bangladesh 🇧🇩</p>
+  <footer class="bg-gray-950 py-10 text-center text-gray-500 text-sm border-t border-gray-800">
+    <p class="mb-2">&copy; 2025 NoteLagbe.com. Designed and developed with passion for students, by students. 💙</p>
+    <p class="mt-2 text-gray-400">Crafted with immense ❤️ in Bangladesh 🇧🇩</p>
   </footer>
 
 </body>
