@@ -7,9 +7,6 @@
 
   <!-- Tailwind CDN (v3.4.4) -->
   <script src="https://cdn.tailwindcss.com/3.4.4"></script>
-
-  <!-- Your main JS (ES module) -->
-  <script type="module" defer src="script.js"></script>
 </head>
 <body class="font-sans antialiased">
 
@@ -79,5 +76,7 @@
     <p class="mt-2">Made with ❤️ in Bangladesh 🇧🇩</p>
   </footer>
 
+  <!-- Script moved here to ensure DOM is loaded before it runs -->
+  <script type="module" src="script.js"></script>
 </body>
 </html>
