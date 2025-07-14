@@ -3,30 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NoteLagbe - Admin</title>
-  <script defer src="admin.js"></script>
+  <title>Admin - Upload Notes</title>
+  <script type="module" defer src="admin.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 p-6">
-  <h1 class="text-2xl font-bold mb-4">👑 Admin Panel</h1>
-
-  <div class="mb-4">
-    <label class="block mb-1 font-medium">Admin Password:</label>
-    <input type="password" id="adminPass" class="border p-2 rounded w-full max-w-sm" />
-    <button onclick="checkAdmin()" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded">Login</button>
-  </div>
-
-  <div id="userList" class="hidden">
-    <h2 class="text-xl font-semibold mb-2">👥 All Registered Users</h2>
-    <table class="table-auto border border-collapse border-gray-400">
-      <thead>
-        <tr class="bg-gray-200">
-          <th class="border p-2">Username</th>
-          <th class="border p-2">Password</th>
-        </tr>
-      </thead>
-      <tbody id="userTableBody"></tbody>
-    </table>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+  <div class="bg-white p-6 rounded-xl shadow-md w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">📤 Upload New Note</h2>
+    <input id="title" type="text" placeholder="Note Title" class="w-full p-2 mb-3 border rounded" />
+    <input id="link" type="url" placeholder="Google Drive Link" class="w-full p-2 mb-4 border rounded" />
+    <button id="uploadBtn" class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Upload</button>
   </div>
 </body>
 </html>
