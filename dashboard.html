@@ -1,37 +1,71 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-gray-950 text-gray-100">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>NoteLagbe - Dashboard</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <script type="module" defer src="script.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="font-sans bg-gray-950 min-h-screen flex flex-col">
-
-  <!-- Header -->
-  <header class="flex justify-between items-center max-w-6xl mx-auto w-full px-6 py-6 border-b border-gray-800">
-    <h1 class="text-3xl font-bold text-white flex items-center gap-2">
-      <span>✨</span> Download Notes
-    </h1>
-    <button onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded">
-      Logout
-    </button>
-  </header>
-
-  <!-- Notes Grid -->
-  <main class="flex-grow w-full max-w-6xl mx-auto px-6 py-10">
-    <section id="file-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      <!-- JS will fill in cards here -->
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-gray-950 py-8 text-center text-gray-500 text-sm border-t border-gray-800">
-    <p>&copy; 2025 <span class="text-white font-semibold">NoteLagbe.com</span>. Built for students, by students. 💙</p>
-    <p class="mt-1">Made with ❤️ in Bangladesh 🇧🇩</p>
-  </footer>
-
-  <!-- Dashboard JS -->
-  <script src="dashboard.js"></script>
+<body class="bg-gray-100 p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">📂 Download Notes</h1>
+    <button onclick="logout()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Logout</button>
+  </div>
+  <ul id="file-list" class="space-y-3"></ul>
 </body>
 </html>
+
+dashboard.js
+
+// For now, files are static. You can fetch from Supabase later if needed.
+
+admin.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin - Upload Notes</title>
+  <script type="module" defer src="admin.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+  <div class="bg-white p-6 rounded-xl shadow-md w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-4 text-center">📤 Upload New Note</h2>
+    <input id="title" type="text" placeholder="Note Title" class="w-full p-2 mb-3 border rounded" />
+    <input id="link" type="url" placeholder="Google Drive Link" class="w-full p-2 mb-4 border rounded" />
+    <button id="uploadBtn" class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Upload</button>
+  </div>
+</body>
+</html>
+
+admin.js
+
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabase = createClient(
+  "https://rsegoslplitkkrbarlxc.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzZWdvc2xwbGl0a2tyYmFybHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0OTI2NjUsImV4cCI6MjA2ODA2ODY2NX0.Fi7-CD0M2DHKSNmwDkQxfHeP8xpGCBDc5bgLWBAbGns"
+);
+
+document.getElementById("uploadBtn").addEventListener("click", async () => {
+  const title = document.getElementById("title").value.trim();
+  const link = document.getElementById("link").value.trim();
+
+  if (!title || !link) {
+    alert("Please enter both title and link.");
+    return;
+  }
+
+  const { error } = await supabase.from("filelinks").insert([{ title, link }]);
+
+  if (error) {
+    alert("Upload failed: " + error.message);
+  } else {
+    alert("Note uploaded successfully!");
+    document.getElementById("title").value = "";
+    document.getElementById("link").value = "";
+  }
+});
