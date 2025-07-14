@@ -1,35 +1,26 @@
-const SUPABASE_URL = "https://rsegoslplitkkrbarlxc.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."; // Use your full key
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-// Set your own secret password here
-const adminSecret = "notelagbeadmin123";
+const supabase = createClient(
+  "https://rsegoslplitkkrbarlxc.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzZWdvc2xwbGl0a2tyYmFybHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0OTI2NjUsImV4cCI6MjA2ODA2ODY2NX0.Fi7-CD0M2DHKSNmwDkQxfHeP8xpGCBDc5bgLWBAbGns"
+);
 
-async function checkAdmin() {
-  const passInput = document.getElementById("adminPass").value;
-  if (passInput !== adminSecret) {
-    alert("Wrong password!");
+document.getElementById("uploadBtn").addEventListener("click", async () => {
+  const title = document.getElementById("title").value.trim();
+  const link = document.getElementById("link").value.trim();
+
+  if (!title || !link) {
+    alert("Please enter both title and link.");
     return;
   }
 
-  const { data, error } = await supabase.from("authdata").select("*");
+  const { error } = await supabase.from("filelinks").insert([{ title, link }]);
+
   if (error) {
-    alert("Failed to fetch user data");
-    console.error(error);
-    return;
+    alert("Upload failed: " + error.message);
+  } else {
+    alert("Note uploaded successfully!");
+    document.getElementById("title").value = "";
+    document.getElementById("link").value = "";
   }
-
-  document.getElementById("userList").classList.remove("hidden");
-
-  const tbody = document.getElementById("userTableBody");
-  tbody.innerHTML = "";
-
-  data.forEach((user) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td class="border p-2">${user.username}</td>
-      <td class="border p-2">${user.password}</td>
-    `;
-    tbody.appendChild(row);
-  });
-}
+});
