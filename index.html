@@ -1,103 +1,83 @@
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-950 text-gray-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NoteLagbe.com – Study Notes for Students</title>
 
-const supabase = createClient(
-  "https://rsegoslplitkkrbarlxc.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzZWdvc2xwbGl0a2tyYmFybHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0OTI2NjUsImV4cCI6MjA2ODA2ODY2NX0.Fi7-CD0M2DHKSNmwDkQxfHeP8xpGCBDc5bgLWBAbGns"
-);
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com/3.4.4"></script>
 
-// 🔐 Login handler
-async function handleLogin(event) {
-  event.preventDefault();
-  const username = document.getElementById("login-username")?.value.trim();
-  const password = document.getElementById("login-password")?.value.trim();
+  <!-- JS Module -->
+  <script type="module" src="script.js" defer></script>
+</head>
+<body class="font-sans antialiased">
 
-  if (!username || !password) {
-    alert("Please fill in both login fields.");
-    return;
-  }
+  <!-- HERO -->
+  <section class="min-h-screen flex flex-col justify-center items-center text-center px-6 py-12">
+    <h1 class="text-4xl md:text-6xl font-bold mb-4 text-white">
+      📚 Welcome to <span class="text-blue-500">NoteLagbe.com</span>
+    </h1>
+    <p class="text-lg md:text-xl text-gray-400 max-w-xl mb-10">
+      Free, curated study notes shared by real students. Sign up or log in to access everything.
+    </p>
 
-  const { data, error } = await supabase
-    .from("authdata")
-    .select("*")
-    .eq("username", username)
-    .eq("password", password);
+    <!-- AUTH BOX -->
+    <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-900 rounded-2xl shadow-xl p-10">
+      
+      <!-- SIGN UP -->
+      <div>
+        <h2 class="text-2xl font-semibold mb-4 text-white">🔐 Create an Account</h2>
+        <input id="signup-username" type="text" placeholder="Username"
+               class="w-full p-3 mb-4 rounded bg-gray-800 border border-gray-700 text-white" />
+        <input id="signup-password" type="password" placeholder="Password"
+               class="w-full p-3 mb-6 rounded bg-gray-800 border border-gray-700 text-white" />
+        <button id="signupBtn"
+                class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded transition">
+          Sign Up
+        </button>
+      </div>
 
-  if (error || !data || data.length === 0) {
-    alert("Invalid username or password.");
-  } else {
-    localStorage.setItem("loggedInUser", username);
-    window.location.href = "dashboard.html";
-  }
-}
+      <!-- LOGIN -->
+      <div>
+        <h2 class="text-2xl font-semibold mb-4 text-white">✅ Log In</h2>
+        <input id="login-username" type="text" placeholder="Username"
+               class="w-full p-3 mb-4 rounded bg-gray-800 border border-gray-700 text-white" />
+        <input id="login-password" type="password" placeholder="Password"
+               class="w-full p-3 mb-6 rounded bg-gray-800 border border-gray-700 text-white" />
+        <button id="loginBtn"
+                class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded transition">
+          Log In
+        </button>
+      </div>
 
-// 📝 Signup handler
-async function handleSignup(event) {
-  event.preventDefault();
-  const username = document.getElementById("signup-username")?.value.trim();
-  const password = document.getElementById("signup-password")?.value.trim();
+    </div>
+  </section>
 
-  if (!username || !password) {
-    alert("Please fill in both signup fields.");
-    return;
-  }
+  <!-- FEATURES -->
+  <section class="py-16 px-6 bg-gray-900 text-center">
+    <h2 class="text-3xl font-bold mb-8 text-white">🚀 Why Use NoteLagbe?</h2>
+    <div class="grid gap-8 md:grid-cols-3 max-w-5xl mx-auto">
+      <div class="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold mb-2 text-green-400">Free Resources</h3>
+        <p class="text-gray-400">Download high‑quality study notes for free — no hidden fees.</p>
+      </div>
+      <div class="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold mb-2 text-blue-400">Trusted by Students</h3>
+        <p class="text-gray-400">Used by students at colleges all over Bangladesh.</p>
+      </div>
+      <div class="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold mb-2 text-pink-400">Super Simple</h3>
+        <p class="text-gray-400">No clutter — just the files you need, fast.</p>
+      </div>
+    </div>
+  </section>
 
-  const { error } = await supabase.from("authdata").insert([{ username, password }]);
+  <!-- FOOTER -->
+  <footer class="bg-gray-950 py-8 text-center text-gray-500 text-sm">
+    <p>&copy; 2025 NoteLagbe.com. Built for students, by students. 💙</p>
+    <p class="mt-2">Made with ❤️ in Bangladesh 🇧🇩</p>
+  </footer>
 
-  if (error) {
-    console.error(error);
-    alert("Signup failed: " + error.message);
-  } else {
-    alert("Signup successful!");
-    window.location.href = "index.html";
-  }
-}
-
-// 🔄 Attach handlers
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("loginBtn")?.addEventListener("click", handleLogin);
-  document.getElementById("signupBtn")?.addEventListener("click", handleSignup);
-});
-
-// 🚫 Protect dashboard
-if (
-  window.location.pathname.includes("dashboard.html") &&
-  !localStorage.getItem("loggedInUser")
-) {
-  window.location.href = "index.html";
-}
-
-// 🔓 Logout function
-function logout() {
-  localStorage.removeItem("loggedInUser");
-  window.location.href = "index.html";
-}
-window.logout = logout;
-
-// 📁 Load files to dashboard
-async function loadFiles() {
-  const fileList = document.getElementById("file-list");
-  if (!fileList) return;
-
-  const { data, error } = await supabase
-    .from("filelinks")
-    .select("*")
-    .order("id", { ascending: true });
-
-  if (error) {
-    console.error("Failed to load files:", error.message);
-    return;
-  }
-
-  data.forEach((file) => {
-    const linkElem = document.createElement("a");
-    linkElem.href = file.link;
-    linkElem.textContent = `📄 ${file.title}`;
-    linkElem.className = "block text-blue-600 underline hover:text-blue-800 mb-2";
-    linkElem.target = "_blank";
-    fileList.appendChild(linkElem);
-  });
-}
-
-if (window.location.pathname.includes("dashboard.html")) {
-  loadFiles();
-}
+</body>
+</html>
