@@ -1,4 +1,4 @@
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+/* import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
 const supabase = createClient(
   "https://rsegoslplitkkrbarlxc.supabase.co",
@@ -97,8 +97,82 @@ async function loadFiles() {
     fileList.appendChild(linkElem);
   });
 }
+/
+
 
 if (window.location.pathname.includes("dashboard.html")) {
   loadFiles();
 }
 
+*/
+
+async function loadFiles() {
+  const fileList = document.getElementById("file-list");
+  if (!fileList) return;
+
+  const { data, error } = await supabase
+    .from("filelinks")
+    .select("*")
+    .order("id", { ascending: true });
+
+  if (error) {
+    console.error("Failed to load files:", error.message);
+    return;
+  }
+
+  data.forEach((file) => {
+    const card = document.createElement("a");
+    card.href = file.link;
+    card.target = "_blank";
+    card.rel = "noopener noreferrer";
+    card.className =
+      "bg-gray-800 rounded-lg p-5 shadow-md hover:shadow-lg transition flex flex-col justify-between";
+
+    // Title
+    const title = document.createElement("h3");
+    title.textContent = file.title;
+    title.className = "text-white text-lg font-semibold mb-2 truncate";
+
+    // Link icon & subtitle
+    const linkInfo = document.createElement("div");
+    linkInfo.className = "flex items-center text-blue-400 hover:text-blue-600 font-medium";
+
+    // External link icon SVG (small)
+    const linkIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    linkIcon.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    linkIcon.setAttribute("fill", "none");
+    linkIcon.setAttribute("viewBox", "0 0 24 24");
+    linkIcon.setAttribute("stroke", "currentColor");
+    linkIcon.setAttribute("class", "w-5 h-5 mr-2");
+
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute(
+      "stroke-linecap",
+      "round"
+    );
+    path.setAttribute(
+      "stroke-linejoin",
+      "round"
+    );
+    path.setAttribute(
+      "stroke-width",
+      "2"
+    );
+    path.setAttribute(
+      "d",
+      "M13.828 9l3.182-3.182a1 1 0 00-1.415-1.415L12.414 7.586m-2.121 2.121L7.586 12.414a1 1 0 001.415 1.415L11 13.828"
+    );
+
+    linkIcon.appendChild(path);
+    linkInfo.appendChild(linkIcon);
+
+    const linkText = document.createElement("span");
+    linkText.textContent = "Open Note";
+    linkInfo.appendChild(linkText);
+
+    card.appendChild(title);
+    card.appendChild(linkInfo);
+
+    fileList.appendChild(card);
+  });
+}
