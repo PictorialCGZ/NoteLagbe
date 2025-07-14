@@ -1,17 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="bg-gray-950 text-gray-100">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NoteLagbe - Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NoteLagbe – Dashboard</title>
+
+  <!-- Tailwind CDN (same version as landing page) -->
+  <script src="https://cdn.tailwindcss.com/3.4.4"></script>
+
+  <!-- Main client logic -->
   <script type="module" defer src="script.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 p-6">
-  <div class="flex justify-between items-center mb-6">
-    <h1 class="text-3xl font-bold">📂 Download Notes</h1>
-    <button onclick="logout()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Logout</button>
-  </div>
-  <ul id="file-list" class="space-y-3"></ul>
+<body class="font-sans antialiased">
+
+  <!-- TOP BAR -->
+  <header class="bg-gray-900 shadow-md">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <h1 class="text-2xl md:text-3xl font-bold">
+        📂 <span class="text-blue-500">Dashboard</span>
+      </h1>
+      <button onclick="logout()"
+              class="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded transition">
+        Logout
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="min-h-screen flex flex-col items-center px-6 py-12">
+    <div class="max-w-4xl w-full">
+      <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center">Your Study Notes</h2>
+
+      <!-- Files injected here by script.js -->
+      <div id="file-list" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-900 text-gray-500 text-sm text-center py-6">
+    © 2025 NoteLagbe.com. Built for students, by students.
+  </footer>
+
+  <!-- Optional: template if you later want card‑style links via script.js -->
+  <template id="file-card-template">
+    <a target="_blank"
+       class="block bg-gray-800 hover:shadow-lg transition rounded-xl p-5 border border-gray-700 hover:border-blue-500 truncate">
+      <div class="flex items-center space-x-3">
+        <span class="text-2xl">📄</span>
+        <span class="font-medium text-blue-400 truncate"></span>
+      </div>
+    </a>
+  </template>
+
 </body>
 </html>
