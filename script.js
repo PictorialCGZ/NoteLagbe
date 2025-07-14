@@ -5,56 +5,38 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ✅ Signup Function (for signup.html)
-window.handleSignup = async function (event) {
-  event.preventDefault();
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+document.addEventListener("DOMContentLoaded", () => {
+  // ✅ Attach login button event handler
+  const loginBtn = document.getElementById("loginBtn");
+  if (loginBtn) {
+    loginBtn.addEventListener("click", async function (event) {
+      event.preventDefault();
 
-  if (!username || !password) {
-    alert("Please fill in both fields.");
-    return;
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      const { data, error } = await supabase
+        .from("authdata")
+        .select("*")
+        .eq("username", username)
+        .eq("password", password);
+
+      if (error || !data || data.length === 0) {
+        alert("Invalid username or password.");
+      } else {
+        localStorage.setItem("loggedInUser", username);
+        window.location.href = "dashboard.html";
+      }
+    });
   }
 
-  const { data, error } = await supabase
-    .from("authdata")
-    .insert([{ username, password }]);
-
-  if (error) {
-    alert("Signup failed: " + error.message);
-  } else {
-    alert("Signup successful! You can now log in.");
-    window.location.href = "index.html";
+  // ✅ If on dashboard, load files
+  if (window.location.pathname.includes("dashboard.html")) {
+    loadFiles();
   }
-};
+});
 
-// ✅ Login Function (triggered by event listener)
-async function handleLogin(event) {
-  event.preventDefault();
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
-
-  const { data, error } = await supabase
-    .from("authdata")
-    .select("*")
-    .eq("username", username)
-    .eq("password", password);
-
-  if (error || !data || data.length === 0) {
-    alert("Invalid username or password.");
-  } else {
-    localStorage.setItem("loggedInUser", username);
-    window.location.href = "dashboard.html";
-  }
-}
-
-// ✅ Attach login event listener if login page is open
-const loginBtn = document.getElementById("loginBtn");
-if (loginBtn) {
-  loginBtn.addEventListener("click", handleLogin);
-}
-
-// ✅ Dashboard: Load file links
+// ✅ File loader for dashboard
 async function loadFiles() {
   const fileList = document.getElementById("file-list");
   if (!fileList) return;
@@ -73,4 +55,8 @@ async function loadFiles() {
     const linkElem = document.createElement("a");
     linkElem.href = file.link;
     linkElem.textContent = `📄 ${file.title}`;
-    linkElem.className = "block tex
+    linkElem.className = "block text-blue-600 underline hover:text-blue-800 mb-2";
+    linkElem.target = "_blank";
+    fileList.appendChild(linkElem);
+  });
+}
