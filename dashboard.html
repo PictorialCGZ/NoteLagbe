@@ -4,17 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>NoteLagbe - Dashboard</title>
-
-  <!-- ✅ Load script.js as module -->
   <script type="module" defer src="script.js"></script>
-
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 p-6">
-  <h1 class="text-3xl font-bold mb-4">📂 Download Notes</h1>
-
-  <!-- ✅ This is where file links will be loaded -->
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">📂 Download Notes</h1>
+    <button onclick="logout()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Logout</button>
+  </div>
   <ul id="file-list" class="space-y-3"></ul>
-
 </body>
 </html>
