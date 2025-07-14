@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-950 text-gray-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NoteLagbe.com - Study Notes for Students</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("homeSignupBtn")?.addEventListener("click", () => {
+        window.location.href = "signup.html";
+      });
+
+      document.getElementById("homeLoginBtn")?.addEventListener("click", () => {
+        window.location.href = "login.html";
+      });
+    });
+  </script>
+</head>
+<body class="font-sans">
+
+  <!-- HERO SECTION -->
+  <section class="min-h-screen flex flex-col justify-center items-center text-center px-6 py-12">
+    <h1 class="text-4xl md:text-6xl font-bold mb-4 text-white">
+      📚 Welcome to <span class="text-blue-500">NoteLagbe.com</span>
+    </h1>
+    <p class="text-lg md:text-xl text-gray-400 max-w-xl mb-10">
+      The easiest way to get free, curated study notes shared by real students. Sign up now to access all files.
+    </p>
+
+    <!-- AUTH BOXES -->
+    <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-900 rounded-2xl shadow-xl p-10">
+
+      <!-- SIGNUP -->
+      <div>
+        <h2 class="text-2xl font-semibold mb-4 text-white">🔐 Create an Account</h2>
+        <input type="text" placeholder="Username" disabled class="w-full p-3 mb-4 rounded bg-gray-800 border border-gray-700 text-white opacity-50 cursor-not-allowed" />
+        <input type="password" placeholder="Password" disabled class="w-full p-3 mb-4 rounded bg-gray-800 border border-gray-700 text-white opacity-50 cursor-not-allowed" />
+        <button id="homeSignupBtn" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded transition">
+          Sign Up
+        </button>
+      </div>
+
+      <!-- LOGIN -->
+      <div>
+        <h2 class="text-2xl font-semibold mb-4 text-white">✅ Log In</h2>
+        <input type="text" placeholder="Username" disabled class="w-full p-3 mb-4 rounded bg-gray-800 border border-gray-700 text-white opacity-50 cursor-not-allowed" />
+        <input type="password" placeholder="Password" disabled class="w-full p-3 mb-4 rounded bg-gray-800 border border-gray-700 text-white opacity-50 cursor-not-allowed" />
+        <button id="homeLoginBtn" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded transition">
+          Log In
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES SECTION -->
+  <section class="py-16 px-6 bg-gray-900 text-center">
+    <h2 class="text-3xl font-bold mb-6 text-white">🚀 Why Use NoteLagbe?</h2>
+    <div class="grid gap-8 md:grid-cols-3 max-w-5xl mx-auto">
+      <div class="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold mb-2 text-green-400">Free Resources</h3>
+        <p class="text-gray-400">Download high-quality study notes for free — no hidden charges.</p>
+      </div>
+      <div class="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold mb-2 text-blue-400">Trusted by Students</h3>
+        <p class="text-gray-400">Used by hundreds of students in your college and beyond.</p>
+      </div>
+      <div class="bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold mb-2 text-pink-400">Super Simple</h3>
+        <p class="text-gray-400">No unnecessary features. Just what you need, fast and focused.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-950 py-8 text-center text-gray-500 text-sm">
+    <p>&copy; 2025 NoteLagbe.com. Built for students, by students. 💙</p>
+    <p class="mt-2">Made with ❤️ in Bangladesh 🇧🇩</p>
+  </footer>
+
+</body>
+</html>
