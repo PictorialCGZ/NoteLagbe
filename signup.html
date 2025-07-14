@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NoteLagbe - Sign Up</title>
+  <script defer src="signup.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+  <div class="bg-white p-6 rounded-xl shadow-md w-full max-w-sm">
+    <h2 class="text-2xl font-bold text-center mb-4">Sign Up</h2>
+    <input id="username" type="text" placeholder="Username" class="w-full p-2 mb-3 border rounded" />
+    <input id="password" type="password" placeholder="Password" class="w-full p-2 mb-4 border rounded" />
+    <button onclick="signup()" class="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700">Sign Up</button>
+    <p class="text-center mt-4 text-sm">Already have an account? <a href="index.html" class="text-blue-500">Log in</a></p>
+  </div>
+</body>
+</html>

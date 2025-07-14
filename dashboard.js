@@ -1,0 +1,1 @@
+// For now, files are static. You can fetch from Supabase later if needed.
