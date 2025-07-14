@@ -1,11 +1,13 @@
-// ✅ Updated Supabase credentials and login/signup logic
-
+// ✅ Supabase credentials
 const SUPABASE_URL = "https://rsegoslplitkkrbarlxc.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzZWdvc2xwbGl0a2tyYmFybHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0OTI2NjUsImV4cCI6MjA2ODA2ODY2NX0.Fi7-CD0M2DHKSNmwDkQxfHeP8xpGCBDc5bgLWBAbGns";
+const SUPABASE_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzZWdvc2xwbGl0a2tyYmFybHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0OTI2NjUsImV4cCI6MjA2ODA2ODY2NX0.Fi7-CD0M2DHKSNmwDkQxfHeP8xpGCBDc5bgLWBAbGns";
 
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Signup logic
+//
+// 🔐 SIGNUP
+//
 async function handleSignup(event) {
   event.preventDefault();
   const username = document.getElementById("username").value;
@@ -17,7 +19,7 @@ async function handleSignup(event) {
   }
 
   const { data, error } = await client.from("authdata").insert([
-    { username, password }
+    { username, password },
   ]);
 
   if (error) {
@@ -28,7 +30,9 @@ async function handleSignup(event) {
   }
 }
 
-// Login logic
+//
+// 🔓 LOGIN
+//
 async function handleLogin(event) {
   event.preventDefault();
   const username = document.getElementById("username").value;
@@ -43,6 +47,54 @@ async function handleLogin(event) {
   if (error || !data || data.length === 0) {
     alert("Invalid username or password");
   } else {
+    // ✅ Save login session
+    localStorage.setItem("loggedInUser", username);
+
+    // ✅ Go to dashboard
     window.location.href = "dashboard.html";
   }
 }
+
+//
+// 📂 SHOW FILES ON DASHBOARD
+//
+async function loadFiles() {
+  const username = localStorage.getItem("loggedInUser");
+
+  // 🔐 Check login
+  if (!username) {
+    document.body.innerHTML =
+      "<p class='text-center text-red-600 font-bold mt-10'>You must log in first.</p>";
+    return;
+  }
+
+  const { data, error } = await client
+    .from("filelinks")
+    .select("*")
+    .order("id", { ascending: true });
+
+  if (error) {
+    console.error("Failed to load files:", error);
+    return;
+  }
+
+  const fileList = document.getElementById("file-list");
+  if (!fileList) return;
+
+  fileList.innerHTML = "";
+
+  data.forEach((file) => {
+    const link = document.createElement("a");
+    link.href = file.link;
+    link.textContent = `📄 ${file.title}`;
+    link.className = "block text-blue-600 underline hover:text-blue-800";
+    link.target = "_blank";
+    fileList.appendChild(link);
+  });
+}
+
+// ▶️ Auto-run on dashboard
+if (window.location.pathname.includes("dashboard.html")) {
+  loadFiles();
+}
+
