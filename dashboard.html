@@ -1,71 +1,26 @@
+<!-- dashboard.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="bg-gray-950 text-gray-100">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NoteLagbe - Dashboard</title>
-  <script type="module" defer src="script.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NoteLagbe Dashboard</title>
+  <script src="https://cdn.tailwindcss.com/3.4.4"></script>
+  <script type="module" defer src="dashboard.js"></script>
 </head>
-<body class="bg-gray-100 p-6">
-  <div class="flex justify-between items-center mb-6">
-    <h1 class="text-3xl font-bold">📂 Download Notes</h1>
-    <button onclick="logout()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Logout</button>
-  </div>
-  <ul id="file-list" class="space-y-3"></ul>
+<body class="font-sans min-h-screen flex flex-col">
+  <header class="bg-gray-900 shadow p-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold text-white">NoteLagbe Dashboard</h1>
+    <button onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">Logout</button>
+  </header>
+  <main class="flex-grow p-6 max-w-5xl mx-auto">
+    <h2 class="text-2xl font-bold mb-4">Your Notes</h2>
+    <section id="file-list" class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <!-- Notes will be inserted here -->
+    </section>
+  </main>
+  <footer class="bg-gray-900 text-center text-gray-400 text-sm py-4">
+    &copy; 2025 NoteLagbe.com
+  </footer>
 </body>
 </html>
-
-dashboard.js
-
-// For now, files are static. You can fetch from Supabase later if needed.
-
-admin.html
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin - Upload Notes</title>
-  <script type="module" defer src="admin.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
-  <div class="bg-white p-6 rounded-xl shadow-md w-full max-w-md">
-    <h2 class="text-2xl font-bold mb-4 text-center">📤 Upload New Note</h2>
-    <input id="title" type="text" placeholder="Note Title" class="w-full p-2 mb-3 border rounded" />
-    <input id="link" type="url" placeholder="Google Drive Link" class="w-full p-2 mb-4 border rounded" />
-    <button id="uploadBtn" class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Upload</button>
-  </div>
-</body>
-</html>
-
-admin.js
-
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-
-const supabase = createClient(
-  "https://rsegoslplitkkrbarlxc.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzZWdvc2xwbGl0a2tyYmFybHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0OTI2NjUsImV4cCI6MjA2ODA2ODY2NX0.Fi7-CD0M2DHKSNmwDkQxfHeP8xpGCBDc5bgLWBAbGns"
-);
-
-document.getElementById("uploadBtn").addEventListener("click", async () => {
-  const title = document.getElementById("title").value.trim();
-  const link = document.getElementById("link").value.trim();
-
-  if (!title || !link) {
-    alert("Please enter both title and link.");
-    return;
-  }
-
-  const { error } = await supabase.from("filelinks").insert([{ title, link }]);
-
-  if (error) {
-    alert("Upload failed: " + error.message);
-  } else {
-    alert("Note uploaded successfully!");
-    document.getElementById("title").value = "";
-    document.getElementById("link").value = "";
-  }
-});
