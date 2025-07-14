@@ -50,7 +50,7 @@ async function loadFiles() {
 
     const title = document.createElement("h3");
     title.textContent = file.title;
-    title.className = "text-white text-xl font-semibold mb-2 truncate";
+    title.className = "text-white text-xl font-semibold mb-2 break-words";
 
     const linkText = document.createElement("p");
     linkText.textContent = "📄 Open Note";
