@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-gray-950 text-gray-100">
+<html lang="en" class="bg-[#0f0f0f] text-white">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,9 +8,10 @@
   <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 
-  <!-- Google Fonts -->
+  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 
+  <!-- Inline JavaScript Module -->
   <script type="module" defer>
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
@@ -54,11 +55,11 @@
         card.target = "_blank";
         card.rel = "noopener noreferrer";
         card.className =
-          "bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-2xl transition flex flex-col justify-between focus:outline-none focus:ring-4 focus:ring-blue-500";
+          "bg-[#1e1e1e] hover:bg-[#2c2c2c] text-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-200 ease-in-out flex flex-col gap-4 focus:outline-none focus:ring-2 focus:ring-blue-500";
 
         const title = document.createElement("h3");
         title.textContent = file.title;
-        title.className = "text-white text-xl font-semibold mb-4 truncate";
+        title.className = "text-lg font-semibold truncate";
 
         const linkInfo = document.createElement("div");
         linkInfo.className = "flex items-center text-blue-400 font-medium";
@@ -68,7 +69,7 @@
         linkIcon.setAttribute("fill", "none");
         linkIcon.setAttribute("viewBox", "0 0 24 24");
         linkIcon.setAttribute("stroke", "currentColor");
-        linkIcon.setAttribute("class", "w-6 h-6 mr-2");
+        linkIcon.setAttribute("class", "w-5 h-5 mr-2");
 
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
         path.setAttribute("stroke-linecap", "round");
@@ -92,7 +93,6 @@
       });
     }
 
-    // Guard for login
     document.addEventListener("DOMContentLoaded", () => {
       if (!localStorage.getItem("loggedInUser")) {
         window.location.href = "index.html";
@@ -106,57 +106,53 @@
     body {
       font-family: 'Inter', sans-serif;
     }
+
     #file-list {
-      max-height: 65vh;
+      max-height: 70vh;
       overflow-y: auto;
       scrollbar-width: thin;
       scrollbar-color: #4b5563 transparent;
     }
+
     #file-list::-webkit-scrollbar {
       width: 8px;
     }
+
     #file-list::-webkit-scrollbar-track {
       background: transparent;
     }
+
     #file-list::-webkit-scrollbar-thumb {
       background-color: #4b5563;
       border-radius: 4px;
     }
   </style>
 </head>
-<body class="bg-gray-950 min-h-screen flex flex-col">
+<body class="bg-[#0f0f0f] text-white min-h-screen flex flex-col">
 
   <!-- Header -->
-  <header class="flex justify-between items-center max-w-6xl mx-auto p-6">
-    <h1 class="text-4xl font-extrabold flex items-center gap-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a4 4 0 004 4h10a4 4 0 004-4V7M16 3v4M8 3v4M3 7h18" />
+  <header class="flex justify-between items-center max-w-6xl mx-auto w-full px-6 py-4 border-b border-gray-800">
+    <h1 class="text-3xl sm:text-4xl font-extrabold flex items-center gap-3 text-white">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 7v10a4 4 0 004 4h10a4 4 0 004-4V7M16 3v4M8 3v4M3 7h18" />
       </svg>
       Download Notes
     </h1>
-    <button
-      onclick="logout()"
-      class="bg-red-600 hover:bg-red-700 text-white font-semibold px-5 py-2 rounded-lg shadow-lg transition"
-      aria-label="Logout"
-    >
+    <button onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg transition shadow">
       Logout
     </button>
   </header>
 
-  <!-- Main content -->
-  <main class="flex-grow max-w-6xl mx-auto p-6">
-    <section
-      id="file-list"
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
-      aria-label="List of downloadable notes"
-    >
-      <!-- Notes will appear here -->
+  <!-- Main -->
+  <main class="flex-grow w-full max-w-6xl mx-auto px-6 py-10">
+    <section id="file-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <!-- Notes will be dynamically loaded here -->
     </section>
   </main>
 
   <!-- Footer -->
-  <footer class="text-center text-gray-500 text-sm py-8 select-none">
-    &copy; 2025 NoteLagbe.com. Built for students, by students. 💙<br />
+  <footer class="text-center text-gray-500 text-sm py-6 border-t border-gray-800">
+    &copy; 2025 <span class="font-medium text-white">NoteLagbe.com</span>. Built for students, by students. 💙<br>
     Made with ❤️ in Bangladesh 🇧🇩
   </footer>
 </body>
