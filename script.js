@@ -1,5 +1,3 @@
-// ✅ script.js — handles login, signup, file loading
-
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
 const SUPABASE_URL = "https://rsegoslplitkkrbarlxc.supabase.co";
@@ -7,7 +5,7 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ✅ Signup Function
+// ✅ Signup Function (for signup.html)
 window.handleSignup = async function (event) {
   event.preventDefault();
   const username = document.getElementById("username").value;
@@ -30,8 +28,8 @@ window.handleSignup = async function (event) {
   }
 };
 
-// ✅ Login Function
-window.handleLogin = async function (event) {
+// ✅ Login Function (triggered by event listener)
+async function handleLogin(event) {
   event.preventDefault();
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
@@ -45,16 +43,21 @@ window.handleLogin = async function (event) {
   if (error || !data || data.length === 0) {
     alert("Invalid username or password.");
   } else {
-    // ✅ Store login info (optional)
     localStorage.setItem("loggedInUser", username);
     window.location.href = "dashboard.html";
   }
-};
+}
 
-// ✅ Load Files in Dashboard
+// ✅ Attach login event listener if login page is open
+const loginBtn = document.getElementById("loginBtn");
+if (loginBtn) {
+  loginBtn.addEventListener("click", handleLogin);
+}
+
+// ✅ Dashboard: Load file links
 async function loadFiles() {
   const fileList = document.getElementById("file-list");
-  if (!fileList) return; // Only run on dashboard.html
+  if (!fileList) return;
 
   const { data, error } = await supabase
     .from("filelinks")
@@ -70,18 +73,4 @@ async function loadFiles() {
     const linkElem = document.createElement("a");
     linkElem.href = file.link;
     linkElem.textContent = `📄 ${file.title}`;
-    linkElem.className = "block text-blue-600 underline hover:text-blue-800 mb-2";
-    linkElem.target = "_blank";
-    fileList.appendChild(linkElem);
-  });
-}
-
-// ✅ Auto-load files if on dashboard.html
-if (window.location.pathname.includes("dashboard.html")) {
-  loadFiles();
-}
-
-
-if (window.location.pathname.includes("dashboard.html")) {
-  loadFiles();
-}
+    linkElem.className = "block tex
