@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>NoteLagbe - Login</title>
 
-  <!-- ✅ IMPORTANT: type="module" is required -->
+  <!-- ✅ Important: Must load script as module -->
   <script type="module" defer src="script.js"></script>
 
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -17,8 +17,8 @@
     <input id="username" type="text" placeholder="Username" class="w-full p-2 mb-3 border rounded" />
     <input id="password" type="password" placeholder="Password" class="w-full p-2 mb-4 border rounded" />
 
-    <!-- ✅ Calls handleLogin(event) function -->
-    <button onclick="handleLogin(event)" class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Login</button>
+    <!-- ✅ No inline onclick, now handled in script.js -->
+    <button id="loginBtn" class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Login</button>
 
     <p class="text-center mt-4 text-sm">No account? 
       <a href="signup.html" class="text-blue-500">Sign up</a>
