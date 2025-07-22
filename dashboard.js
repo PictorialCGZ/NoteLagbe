@@ -1,3 +1,4 @@
+// ✅ dashboard.js
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
 const supabase = createClient(
@@ -19,7 +20,7 @@ async function loadFiles() {
   const { data, error } = await supabase
     .from("filelinks")
     .select("*")
-    .order("id", { ascending: true });
+    .order("id", { ascending: false }); // Show newest first
 
   if (error) {
     document.getElementById("folder-list").innerHTML = `<p class='text-red-500'>Failed to load.</p>`;
