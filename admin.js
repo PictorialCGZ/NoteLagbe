@@ -42,7 +42,7 @@ window.deleteFile = deleteFile;
 async function loadFiles() {
   const wrap = document.getElementById("file-list");
   wrap.innerHTML = "";
-  const { data, error } = await supabase.from("filelinks").select("*").order("id", { ascending: true });
+  const { data, error } = await supabase.from("filelinks").select("*").order("id", { ascending: false });
   if (error) return console.error(error.message);
 
   data.forEach(({ id, title, link, folder }) => {
