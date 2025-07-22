@@ -1,3 +1,4 @@
+<!-- ✅ dashboard.html -->
 <!DOCTYPE html>
 <html lang="en" class="bg-gray-950 text-gray-100">
 <head>
@@ -11,14 +12,9 @@
 
   <!-- NAVBAR -->
   <header class="flex justify-between items-center px-6 py-4 bg-gray-900 border-b border-gray-800">
-    <div class="flex items-center space-x-2 text-orange-400 text-xl font-bold">
-      <span>🗂️</span>
-      <span class="text-white">Download Notes</span><br>
-      <span class="text-grey" style="font-size: 0.8em;">Password: Educationblog24.com</span>
-      <a href="https://www.facebook.com/profile.php?id=61577259705749" target="_blank" style="padding: 10px 20px; font-size: 16px; background-color: #4267B2; color: white; border: none; border-radius: 6px; text-decoration: none; display: inline-block;">
-  Visit Page
-</a>
-
+    <div>
+      <h1 class="text-xl font-bold text-orange-400">🗂️ NoteLagbe Dashboard</h1>
+      <p class="text-sm text-gray-400">Password: Educationblog24.com</p>
     </div>
     <button onclick="logout()"
             class="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded shadow transition">
@@ -26,18 +22,14 @@
     </button>
   </header>
 
-  <!-- MAIN NOTE GRID -->
-  <main class="p-6 max-w-6xl mx-auto">
-    <div id="file-list" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      <!-- JS will inject cards here -->
-    </div>
+  <!-- MAIN -->
+  <main class="p-6 max-w-6xl mx-auto space-y-6" id="folder-list">
+    <!-- JS will inject folders and files here -->
   </main>
 
   <!-- FOOTER -->
   <footer class="bg-gray-950 border-t border-gray-800 py-8 text-center text-gray-500 text-sm">
     <p>&copy; 2025 <span class="text-blue-400 font-semibold">NoteLagbe.com</span>. Built for students, by students. 💙</p>
-    <p class="mt-2">Made with ❤️ in Bangladesh 🇧🇩</p>
   </footer>
-
 </body>
 </html>
