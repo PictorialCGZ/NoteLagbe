@@ -1,14 +1,9 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
 const supabase = createClient(
-  "https://rsegoslplitkkrbarlxc.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  "https://rsegoslplittkrbarlxc.supabase.co",
+  "YOUR_ANON_KEY"
 );
-
-// Redirect if not logged in
-if (!localStorage.getItem("loggedInUser")) {
-  window.location.href = "index.html";
-}
 
 function logout() {
   localStorage.removeItem("loggedInUser");
@@ -18,48 +13,51 @@ window.logout = logout;
 
 async function loadFiles() {
   const wrapper = document.getElementById("folder-list");
-  wrapper.innerHTML = `<div class="text-center text-gray-400">Loading...</div>`;
+  const searchInput = document.getElementById("searchInput");
+  wrapper.innerHTML = `<div class="text-gray-500 text-center mt-6">Loading...</div>`;
 
   const { data, error } = await supabase
     .from("filelinks")
-    .select("title, link, folder")
+    .select("id, title, link, folder")
     .order("id", { ascending: false });
 
+  console.log("Supabase fetch:", { data, error });
+
   if (error || !data) {
-    wrapper.innerHTML = `<div class="text-red-500 text-center mt-4">Failed to load. Please try later.</div>`;
-    console.error("Supabase error:", error);
+    const msg = error?.message || "No data returned";
+    wrapper.innerHTML = `
+      <div class="text-red-500 text-center mt-6">
+        Failed to load file list. <br>
+        <small>${msg}</small>
+      </div>`;
     return;
   }
 
-  // Group by folder
-  const grouped = {};
-  data.forEach(item => {
-    if (!grouped[item.folder]) grouped[item.folder] = [];
-    grouped[item.folder].push(item);
-  });
-
-  // Render folders
-  wrapper.innerHTML = Object.entries(grouped).map(([folder, items]) => `
-    <div class="bg-white rounded-lg shadow p-4 mb-4">
-      <h2 class="text-lg font-semibold mb-2 text-indigo-600">${folder}</h2>
-      <ul class="list-disc list-inside space-y-1">
-        ${items.map(file => `
-          <li><a href="${file.link}" target="_blank" class="text-blue-600 hover:underline">${file.title}</a></li>
-        `).join("")}
-      </ul>
-    </div>
-  `).join("");
+  window.filesData = data;
+  render(data);
+  if (searchInput) searchInput.addEventListener("input", e => render(filter(e.target.value)));
 }
 
-// Run on load
-document.addEventListener("DOMContentLoaded", loadFiles);
+function render(items) {
+  const grouped = items.reduce((acc, f) => {
+    acc[f.folder] = acc[f.folder] || [];
+    acc[f.folder].push(f);
+    return acc;
+  }, {});
+  const html = Object.entries(grouped).map(([folder, list]) => `
+    <div class="bg-white p-4 rounded shadow-md">
+      <h3 class="text-indigo-700 font-medium mb-2">${folder}</h3>
+      ${list.map(f => `<a href="${f.link}" target="_blank" class="block text-blue-600 hover:underline">${f.title}</a>`).join("")}
+    </div>
+  `).join("");
+  document.getElementById("folder-list").innerHTML = html;
+}
 
-// Search functionality
-document.getElementById("searchInput").addEventListener("input", e => {
-  const term = e.target.value.toLowerCase();
-  const folders = document.querySelectorAll("#folder-list > div");
-  folders.forEach(folder => {
-    const text = folder.textContent.toLowerCase();
-    folder.style.display = text.includes(term) ? "block" : "none";
-  });
-});
+function filter(term) {
+  return window.filesData.filter(f =>
+    f.title.toLowerCase().includes(term.toLowerCase()) ||
+    f.folder.toLowerCase().includes(term.toLowerCase())
+  );
+}
+
+document.addEventListener("DOMContentLoaded", loadFiles);
