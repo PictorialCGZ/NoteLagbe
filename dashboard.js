@@ -1,4 +1,4 @@
-// ✅ dashboard.js
+// ✅ dashboard.js (uses filelinks table, compatible with your admin.html)
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
 const supabase = createClient(
@@ -22,9 +22,9 @@ async function loadFiles() {
   wrapper.innerHTML = `<div class="text-center text-gray-400">Loading...</div>`;
 
   const { data, error } = await supabase
-    .from("files") // ✅ Correct table
+    .from("filelinks") // ✅ old working table
     .select("*")
-    .order("created_at", { ascending: false }); // ✅ Use created_at for ordering
+    .order("id", { ascending: false }); // ✅ as before
 
   if (error) {
     wrapper.innerHTML = `<p class='text-red-500 text-center'>Failed to load. Please try later.</p>`;
@@ -39,8 +39,8 @@ async function loadFiles() {
 function renderFiles(data) {
   const grouped = {};
   data.forEach((file) => {
-    if (!grouped[file.category]) grouped[file.category] = [];
-    grouped[file.category].push(file);
+    if (!grouped[file.folder]) grouped[file.folder] = [];
+    grouped[file.folder].push(file);
   });
 
   const wrapper = document.getElementById("folder-list");
@@ -53,7 +53,7 @@ function renderFiles(data) {
         <summary class="cursor-pointer p-4 text-lg font-bold bg-gray-800 hover:bg-gray-700 transition">📁 ${folder}</summary>
         <div class="grid gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3">
           ${grouped[folder].map(file => `
-            <a href="${file.url}" target="_blank" class="block bg-gray-800 rounded-xl p-4 shadow hover:shadow-lg transition card-hover">
+            <a href="${file.link}" target="_blank" class="block bg-gray-800 rounded-xl p-4 shadow hover:shadow-lg transition card-hover">
               <h3 class="text-white text-md font-semibold mb-2 truncate">📄 ${file.title}</h3>
               <p class="text-blue-400">Open Note</p>
             </a>
@@ -65,7 +65,6 @@ function renderFiles(data) {
   }
 }
 
-// Search filter
 document.getElementById("searchBar").addEventListener("input", (e) => {
   const searchText = e.target.value.toLowerCase();
   const filtered = filesData.filter(file => file.title.toLowerCase().includes(searchText));
