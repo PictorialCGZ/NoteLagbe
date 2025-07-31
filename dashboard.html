@@ -1,39 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NoteLagbe Dashboard</title>
-  <script type="module" src="dashboard.js" defer></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 text-gray-800">
-  <!-- Navbar -->
-  <nav class="bg-white shadow p-4 flex justify-between items-center">
-    <h1 class="text-2xl font-bold text-indigo-600">NoteLagbe</h1>
-    <button onclick="logout()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-      Logout
-    </button>
-  </nav>
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-  <!-- Search Bar -->
-  <div class="max-w-4xl mx-auto mt-6 px-4">
-    <input
-      type="text"
-      id="searchInput"
-      placeholder="Search notes or folder..."
-      class="w-full px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
-    />
-  </div>
+const supabase = createClient(
+  "https://rsegoslplitkkrbarlxc.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzZWdvc2xwbGl0a2tyYmFybHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0OTI2NjUsImV4cCI6MjA2ODA2ODY2NX0.Fi7-CD0M2DHKSNmwDkQxfHeP8xpGCBDc5bgLWBAbGns"
+);
 
-  <!-- File Folder List -->
-  <div id="folder-list" class="max-w-4xl mx-auto mt-6 px-4 space-y-4">
-    <!-- Content loaded by JS -->
-  </div>
+if (!localStorage.getItem("loggedInUser")) {
+  window.location.href = "index.html";
+}
 
-  <!-- Footer -->
-  <footer class="text-center text-sm text-gray-500 mt-12 mb-6">
-    &copy; 2025 NoteLagbe.com
-  </footer>
-</body>
-</html>
+function logout() {
+  localStorage.removeItem("loggedInUser");
+  window.location.href = "index.html";
+}
+window.logout = logout;
+
+async function loadFiles() {
+  const { data, error } = await supabase
+    .from("filelinks")
+    .select("*")
+    .order("id", { ascending: false }); // Show newest first
+
+  if (error) {
+    document.getElementById("folder-list").innerHTML = <p class='text-red-500'>Failed to load.</p>;
+    return;
+  }
+
+  const grouped = {};
+  data.forEach((file) => {
+    if (!grouped[file.folder]) grouped[file.folder] = [];
+    grouped[file.folder].push(file);
+  });
+
+  const wrapper = document.getElementById("folder-list");
+  wrapper.innerHTML = "";
+
+  for (const folder in grouped) {
+    const section = document.createElement("section");
+    section.innerHTML = 
+      <details class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden" open>
+        <summary class="cursor-pointer p-4 text-lg font-bold bg-gray-800">📁 ${folder}</summary>
+        <div class="grid gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3">
+          ${grouped[folder].map(file => 
+            <a href="${file.link}" target="_blank" class="block bg-gray-800 rounded-xl p-4 shadow hover:shadow-lg transition">
+              <h3 class="text-white text-md font-semibold mb-2">📄 ${file.title}</h3>
+              <p class="text-blue-400">Open Note</p>
+            </a>
+          ).join("")}
+        </div>
+      </details>
+    ;
+    wrapper.appendChild(section);
+  }
+}
+
+if (window.location.pathname.includes("dashboard.html")) {
+  loadFiles();
+} 
