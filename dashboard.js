@@ -22,7 +22,7 @@ async function loadFiles() {
     .order("id", { ascending: false }); // Show newest first
 
   if (error) {
-    document.getElementById("folder-list").innerHTML = <p class='text-red-500'>Failed to load.</p>;
+    document.getElementById("folder-list").innerHTML = "<p class='text-red-500'>Failed to load.</p>";
     return;
   }
 
@@ -36,24 +36,28 @@ async function loadFiles() {
   wrapper.innerHTML = "";
 
   for (const folder in grouped) {
-    const section = document.createElement("section");
-    section.innerHTML = 
+    const filesHTML = grouped[folder].map(file => `
+      <a href="${file.link}" target="_blank" class="block bg-gray-800 rounded-xl p-4 shadow hover:shadow-lg transition">
+        <h3 class="text-white text-md font-semibold mb-2">📄 ${file.title}</h3>
+        <p class="text-blue-400">Open Note</p>
+      </a>
+    `).join("");
+
+    const sectionHTML = `
       <details class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden" open>
         <summary class="cursor-pointer p-4 text-lg font-bold bg-gray-800">📁 ${folder}</summary>
         <div class="grid gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3">
-          ${grouped[folder].map(file => 
-            <a href="${file.link}" target="_blank" class="block bg-gray-800 rounded-xl p-4 shadow hover:shadow-lg transition">
-              <h3 class="text-white text-md font-semibold mb-2">📄 ${file.title}</h3>
-              <p class="text-blue-400">Open Note</p>
-            </a>
-          ).join("")}
+          ${filesHTML}
         </div>
       </details>
-    ;
+    `;
+
+    const section = document.createElement("section");
+    section.innerHTML = sectionHTML;
     wrapper.appendChild(section);
   }
 }
 
 if (window.location.pathname.includes("dashboard.html")) {
   loadFiles();
-} 
+}
