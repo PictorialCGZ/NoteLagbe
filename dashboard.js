@@ -2,19 +2,19 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 const supabase = createClient(
   "https://rsegoslplitkkrbarlxc.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzZWdvc2xwbGl0a2tyYmFybHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0OTI2NjUsImV4cCI6MjA2ODA2ODY2NX0.Fi7-CD0M2DHKSNmwCBd9N8_Idl"
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 );
 
+// Redirect if not logged in
 if (!localStorage.getItem("loggedInUser")) {
   window.location.href = "index.html";
 }
+
 function logout() {
   localStorage.removeItem("loggedInUser");
   window.location.href = "index.html";
 }
 window.logout = logout;
-
-let filesData = [];
 
 async function loadFiles() {
   const wrapper = document.getElementById("folder-list");
@@ -22,57 +22,44 @@ async function loadFiles() {
 
   const { data, error } = await supabase
     .from("filelinks")
-    .select("*")
+    .select("title, link, folder")
     .order("id", { ascending: false });
 
-  console.log("Fetched data:", data); // debugging
   if (error || !data) {
-    wrapper.innerHTML = `<p class='text-red-500 text-center'>Failed to load. Please try later.</p>`;
-    console.error(error);
+    wrapper.innerHTML = `<div class="text-red-500 text-center mt-4">Failed to load. Please try later.</div>`;
+    console.error("Supabase error:", error);
     return;
   }
 
-  filesData = data;
-  renderFiles(data);
-}
-
-function renderFiles(data) {
+  // Group by folder
   const grouped = {};
-  data.forEach((file) => {
-    if (!grouped[file.folder]) grouped[file.folder] = [];
-    grouped[file.folder].push(file);
+  data.forEach(item => {
+    if (!grouped[item.folder]) grouped[item.folder] = [];
+    grouped[item.folder].push(item);
   });
 
-  const wrapper = document.getElementById("folder-list");
-  wrapper.innerHTML = "";
-
-  Object.keys(grouped).forEach((folder) => {
-    const section = document.createElement("section");
-    section.classList.add("fade-in");
-    section.innerHTML = `
-      <details class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden" open>
-        <summary class="cursor-pointer p-4 text-lg font-bold bg-gray-800 hover:bg-gray-700 transition">
-          📁 ${folder}
-        </summary>
-        <div class="grid gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3">
-          ${grouped[folder].map(file => `
-            <a href="${file.link}" target="_blank" class="block bg-gray-800 rounded-xl p-4 shadow hover:shadow-lg transition card-hover">
-              <h3 class="text-white text-md font-semibold mb-2 truncate">📄 ${file.title}</h3>
-              <p class="text-blue-400">Open Note</p>
-            </a>
-          `).join("")}
-        </div>
-      </details>
-    `;
-    wrapper.appendChild(section);
-  });
+  // Render folders
+  wrapper.innerHTML = Object.entries(grouped).map(([folder, items]) => `
+    <div class="bg-white rounded-lg shadow p-4 mb-4">
+      <h2 class="text-lg font-semibold mb-2 text-indigo-600">${folder}</h2>
+      <ul class="list-disc list-inside space-y-1">
+        ${items.map(file => `
+          <li><a href="${file.link}" target="_blank" class="text-blue-600 hover:underline">${file.title}</a></li>
+        `).join("")}
+      </ul>
+    </div>
+  `).join("");
 }
 
-document.getElementById("searchBar").addEventListener("input", (e) => {
-  const searchText = e.target.value.toLowerCase();
-  renderFiles(filesData.filter(f => f.title.toLowerCase().includes(searchText)));
+// Run on load
+document.addEventListener("DOMContentLoaded", loadFiles);
+
+// Search functionality
+document.getElementById("searchInput").addEventListener("input", e => {
+  const term = e.target.value.toLowerCase();
+  const folders = document.querySelectorAll("#folder-list > div");
+  folders.forEach(folder => {
+    const text = folder.textContent.toLowerCase();
+    folder.style.display = text.includes(term) ? "block" : "none";
+  });
 });
-
-if (window.location.pathname.includes("dashboard.html")) {
-  loadFiles();
-}
