@@ -1,39 +1,39 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-gray-950 text-gray-100">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PDFNiba Dashboard</title>
-  <script src="https://cdn.tailwindcss.com/3.4.4"></script>
-  <link rel="stylesheet" href="styles.css">
-  <script type="module" defer src="dashboard.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NoteLagbe Dashboard</title>
+  <script type="module" src="dashboard.js" defer></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="font-sans antialiased">
+<body class="bg-gray-100 text-gray-800">
+  <!-- Navbar -->
+  <nav class="bg-white shadow p-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-indigo-600">NoteLagbe</h1>
+    <button onclick="logout()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+      Logout
+    </button>
+  </nav>
 
-  <!-- NAVBAR -->
-  <header class="flex justify-between items-center px-6 py-4 bg-gray-900 border-b border-gray-800">
-    <div>
-      <h1 class="text-xl font-bold text-orange-400">🗂️ PDFNiba Dashboard</h1>
-      <p class="text-sm text-gray-400">Password: Educationblog24.com</p>
-    </div>
-    <div class="flex gap-3">
-      <input id="searchBar" type="text" placeholder="Search notes..."
-             class="px-3 py-2 rounded bg-gray-800 text-gray-200 focus:outline-none focus:ring focus:ring-blue-500" />
-      <button onclick="logout()"
-              class="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded shadow transition">
-        Logout
-      </button>
-    </div>
-  </header>
+  <!-- Search Bar -->
+  <div class="max-w-4xl mx-auto mt-6 px-4">
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search notes or folder..."
+      class="w-full px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+    />
+  </div>
 
-  <!-- MAIN -->
-  <main class="p-6 max-w-6xl mx-auto space-y-6" id="folder-list">
-    <div class="text-center text-gray-400">Loading...</div>
-  </main>
+  <!-- File Folder List -->
+  <div id="folder-list" class="max-w-4xl mx-auto mt-6 px-4 space-y-4">
+    <!-- Content loaded by JS -->
+  </div>
 
-  <!-- FOOTER -->
-  <footer class="bg-gray-950 border-t border-gray-800 py-8 text-center text-gray-500 text-sm">
-    <p>&copy; 2025 <span class="text-blue-400 font-semibold">PDFNiba - HSC + Admission</span>. Built for students, by students. 💙</p>
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-12 mb-6">
+    &copy; 2025 NoteLagbe.com
   </footer>
 </body>
 </html>
