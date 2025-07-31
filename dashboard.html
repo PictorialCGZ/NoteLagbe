@@ -1,4 +1,3 @@
-<!-- ✅ dashboard.html -->
 <!DOCTYPE html>
 <html lang="en" class="bg-gray-950 text-gray-100">
 <head>
@@ -6,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PDFNiba Dashboard</title>
   <script src="https://cdn.tailwindcss.com/3.4.4"></script>
+  <link rel="stylesheet" href="styles.css">
   <script type="module" defer src="dashboard.js"></script>
 </head>
 <body class="font-sans antialiased">
@@ -16,15 +16,19 @@
       <h1 class="text-xl font-bold text-orange-400">🗂️ PDFNiba Dashboard</h1>
       <p class="text-sm text-gray-400">Password: Educationblog24.com</p>
     </div>
-    <button onclick="logout()"
-            class="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded shadow transition">
-      Logout
-    </button>
+    <div class="flex gap-3">
+      <input id="searchBar" type="text" placeholder="Search notes..."
+             class="px-3 py-2 rounded bg-gray-800 text-gray-200 focus:outline-none focus:ring focus:ring-blue-500" />
+      <button onclick="logout()"
+              class="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded shadow transition">
+        Logout
+      </button>
+    </div>
   </header>
 
   <!-- MAIN -->
   <main class="p-6 max-w-6xl mx-auto space-y-6" id="folder-list">
-    <!-- JS will inject folders and files here -->
+    <div class="text-center text-gray-400">Loading...</div>
   </main>
 
   <!-- FOOTER -->
