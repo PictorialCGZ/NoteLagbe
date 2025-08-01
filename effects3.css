@@ -1,0 +1,28 @@
+/* effects.css */
+
+/* Neon text glow */
+.brand {
+  text-shadow: 0 0 5px #ff8a00, 0 0 10px #e52e71, 0 0 20px #e52e71;
+}
+
+/* Gradient animated header text */
+h1 span.brand {
+  background: linear-gradient(270deg, #ff8a00, #e52e71, #9b00ff);
+  background-size: 600% 600%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: animatedGradient 8s ease infinite;
+}
+
+@keyframes animatedGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Form inputs glowing on focus */
+input:focus {
+  outline: none;
+  box-shadow: 0 0 5px #ff6a00, 0 0 10px #ff6a00;
+  background-color: #2c2f40;
+}
