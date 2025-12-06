@@ -1,4 +1,10 @@
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.0/+esm";
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+  const supabase = window.supabase.createClient(
+    "https://rsegoslplitkkrbarlxc.supabase.co",
+    "your-anon-key-here"
+  );
+</script>
 
 
 const supabase = createClient(
